@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+
+<div class="todo-container">
+    <h1>To-Do List</h1>
+    <div>
+        <label for="todo-input">Task:</label>
+        <input type="text" id="todo-input" placeholder="Add new task">
+    </div>
+    <div>
+        <label for="due-date-input">Choose due date:</label>
+        <input type="date" id="due-date-input">
+    </div>
+    <div>
+        <label for="priority-input">Set priority:</label>
+        <select id="priority-input">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+        </select>
+    </div>
+    <div>
+        <label for="recurrence-input">Set recurrence (optional):</label>
+        <select id="recurrence-input">
+            <option value="">None</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+        </select>
+    </div>
+    <div>
+        <label for="sort-options">Sort by:</label>
+        <select id="sort-options">
+            <option value="date">Date</option>
+            <option value="completed">Completion</option>
+            <option value="priority">Priority</option>
+        </select>
+        <button onclick="sortTasks()">Sort</button>
+    </div>
+    <div>
+        <button onclick="addTask()">Add</button>
+    </div>
+    
+
+    <ul id="todo-list">
+        <!-- Tasks will be appended here -->
+    </ul>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
