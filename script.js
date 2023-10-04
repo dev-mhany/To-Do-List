@@ -62,6 +62,11 @@ function renderTasks() {
 
     tasks.forEach((task, index) => {
         const li = document.createElement('li');
+        li.setAttribute('draggable', 'true');
+        li.setAttribute('data-task-id', task.id);
+        li.addEventListener('dragstart', handleDragStart);
+        li.addEventListener('dragover', handleDragOver);
+        li.addEventListener('drop', handleDrop);
         if (task.completed) li.classList.add('completed');
         li.classList.add('priority-' + task.priority);
         
@@ -82,6 +87,7 @@ function renderTasks() {
         list.appendChild(li);
     });
 }
+
 
 function deleteTask(id) {
     tasks = tasks.filter(task => task.id !== id);
@@ -141,3 +147,33 @@ document.addEventListener("DOMContentLoaded", function() {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('due-date-input').value = today;
 });
+let draggedTaskId = null;
+
+function handleDragStart(event) {
+    draggedTaskId = event.target.getAttribute('data-task-id');
+}
+
+function handleDragOver(event) {
+    event.preventDefault();
+}
+
+function handleDrop(event) {
+    event.preventDefault();
+
+    const droppedOnTaskId = event.target.closest('li').getAttribute('data-task-id');
+
+    if (draggedTaskId !== droppedOnTaskId) {
+        reorderTasks(draggedTaskId, droppedOnTaskId);
+        renderTasks();
+    }
+}
+
+function reorderTasks(srcId, targetId) {
+    const srcIndex = tasks.findIndex(task => task.id == srcId);
+    const targetIndex = tasks.findIndex(task => task.id == targetId);
+    if (srcIndex !== -1 && targetIndex !== -1) {
+        const [draggedTask] = tasks.splice(srcIndex, 1);
+        tasks.splice(targetIndex, 0, draggedTask);
+    }
+    saveTasks(); // Ensure the reordering is saved to localStorage
+}
